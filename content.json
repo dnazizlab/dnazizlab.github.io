@@ -1,0 +1,200 @@
+{
+  "profile": {
+    "name": "Muhammad Aziz Muslim",
+    "degrees": "BSc, MSc",
+    "title": "Researcher in Plant & Animal Breeding | Genetics Specialist",
+    "email": "muhammad.aziz.muslim@email.com",
+    "phone": "+49 123 456 789",
+    "location": "Goettingen, Germany",
+    "social": {
+      "linkedin": "https://linkedin.com/in/yourprofile",
+      "github": "https://github.com/yourprofile",
+      "googleScholar": "https://scholar.google.com/citations?user=yourid",
+      "orcid": "https://orcid.org/yourid",
+      "twitter": "https://twitter.com/yourprofile"
+    }
+  },
+  "education": [
+    {
+      "degree": "Master in Animal Breeding and Genetics",
+      "degreeShort": "MSc",
+      "institution": "BOKU University",
+      "description": "Specialized in animal genetics, quantitative genetics, genomic selection, and breeding program optimization.",
+      "period": "2023 - Present"
+    },
+    {
+      "degree": "Master in Integrated Plant and Animal Breeding",
+      "degreeShort": "MSc",
+      "institution": "University of Goettingen",
+      "description": "Focus on integrated breeding approaches, statistical genetics, bioinformatics, and sustainable breeding strategies.",
+      "period": "2021 - 2023"
+    },
+    {
+      "degree": "Bachelor in Agrotechnology (Molecular Plant Breeding)",
+      "degreeShort": "BSc",
+      "institution": "Jenderal Soedirman University",
+      "description": "Specialized in molecular plant breeding, biotechnology, genetics, and crop improvement techniques.",
+      "period": "2017 - 2021"
+    }
+  ],
+  "research": {
+    "interests": [
+      {
+        "title": "Molecular Plant Breeding",
+        "icon": "fa-dna",
+        "description": "Utilizing molecular markers and genomic tools for crop improvement and trait selection.",
+        "tags": ["Marker-Assisted Selection", "Genomic Selection", "QTL Mapping"]
+      },
+      {
+        "title": "Animal Breeding & Genetics",
+        "icon": "fa-paw",
+        "description": "Advancing livestock breeding through genetic evaluation and selection strategies.",
+        "tags": ["Quantitative Genetics", "Genomic Prediction", "Breeding Value Estimation"]
+      },
+      {
+        "title": "Bioinformatics",
+        "icon": "fa-chart-network",
+        "description": "Applying computational tools for genetic data analysis and interpretation.",
+        "tags": ["Sequence Analysis", "Statistical Genetics", "Data Mining"]
+      },
+      {
+        "title": "Sustainable Agriculture",
+        "icon": "fa-seedling",
+        "description": "Developing breeding strategies for climate-resilient and sustainable food production.",
+        "tags": ["Climate Adaptation", "Stress Tolerance", "Food Security"]
+      }
+    ],
+    "projects": [
+      {
+        "title": "Genomic Selection in Livestock",
+        "description": "Implementing genomic prediction models for improving breeding efficiency in domestic animals.",
+        "status": "Ongoing",
+        "image": "assets/images/project1.jpg"
+      },
+      {
+        "title": "Plant Stress Tolerance Breeding",
+        "description": "Identifying genetic markers associated with drought and heat tolerance in crop species.",
+        "status": "Ongoing",
+        "image": "assets/images/project2.jpg"
+      },
+      {
+        "title": "Integrated Breeding Systems",
+        "description": "Developing holistic approaches combining plant and animal breeding for sustainable agriculture.",
+        "status": "Completed",
+        "image": "assets/images/project3.jpg"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Conference Presentation: Genomic Selection Methods",
+        "youtubeId": "dQw4w9WgXcQ"
+      }
+    ]
+  },
+  "publications": [
+    {
+      "title": "Genomic Prediction Accuracy in Multi-Breed Populations",
+      "authors": "Muhammad Aziz Muslim, Co-author Name, Another Author",
+      "journal": "Journal of Animal Breeding and Genetics",
+      "year": "2024",
+      "doi": "10.1111/jbg.12345",
+      "pdf": "assets/documents/publication1.pdf",
+      "link": "#"
+    },
+    {
+      "title": "Molecular Markers Associated with Drought Tolerance in Rice",
+      "authors": "Muhammad Aziz Muslim, Collaborator Name, Research Team",
+      "journal": "Plant Breeding Journal",
+      "year": "2023",
+      "doi": "10.1111/pbj.67890",
+      "pdf": "assets/documents/publication2.pdf",
+      "link": "#"
+    },
+    {
+      "title": "Integrated Breeding Approaches for Sustainable Agriculture",
+      "authors": "Muhammad Aziz Muslim, Research Group",
+      "journal": "International Conference on Agricultural Sciences",
+      "year": "2022",
+      "doi": "10.1109/ICAS.2022.12345",
+      "pdf": "assets/documents/publication3.pdf",
+      "link": "#"
+    }
+  ],
+  "skills": {
+    "categories": [
+      {
+        "title": "Laboratory Techniques",
+        "icon": "fa-dna",
+        "skills": [
+          {"name": "PCR & qPCR", "level": "expert"},
+          {"name": "DNA Extraction", "level": "expert"},
+          {"name": "Gel Electrophoresis", "level": "expert"},
+          {"name": "Next-Generation Sequencing", "level": "advanced"},
+          {"name": "CRISPR/Cas9", "level": "intermediate"}
+        ]
+      },
+      {
+        "title": "Bioinformatics",
+        "icon": "fa-laptop-code",
+        "skills": [
+          {"name": "R Programming", "level": "expert"},
+          {"name": "Python", "level": "advanced"},
+          {"name": "BLAST & Sequence Analysis", "level": "expert"},
+          {"name": "GWAS Analysis", "level": "advanced"},
+          {"name": "Phylogenetic Analysis", "level": "advanced"}
+        ]
+      },
+      {
+        "title": "Statistical Analysis",
+        "icon": "fa-chart-bar",
+        "skills": [
+          {"name": "Mixed Models", "level": "expert"},
+          {"name": "Genomic Prediction", "level": "expert"},
+          {"name": "QTL Mapping", "level": "advanced"},
+          {"name": "SPSS", "level": "expert"},
+          {"name": "SAS", "level": "advanced"}
+        ]
+      },
+      {
+        "title": "Breeding Methods",
+        "icon": "fa-seedling",
+        "skills": [
+          {"name": "Marker-Assisted Selection", "level": "expert"},
+          {"name": "Genomic Selection", "level": "expert"},
+          {"name": "Pedigree Analysis", "level": "expert"},
+          {"name": "Field Trial Design", "level": "advanced"},
+          {"name": "Germplasm Management", "level": "advanced"}
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "title": "Genomic Selection Workshop",
+        "institution": "University of Goettingen",
+        "year": "2023"
+      },
+      {
+        "title": "Advanced Bioinformatics",
+        "institution": "BOKU University",
+        "year": "2022"
+      },
+      {
+        "title": "Molecular Breeding Techniques",
+        "institution": "IRRI Training Center",
+        "year": "2020"
+      }
+    ]
+  },
+  "footer": {
+    "bio": "Dedicated researcher in plant and animal breeding with a passion for advancing agricultural science through innovative genetic approaches and sustainable breeding strategies.",
+    "researchAreas": [
+      "Molecular Breeding",
+      "Genomics",
+      "Quantitative Genetics",
+      "Bioinformatics",
+      "Sustainable Agriculture",
+      "Crop Improvement",
+      "Livestock Genetics"
+    ]
+  }
+}

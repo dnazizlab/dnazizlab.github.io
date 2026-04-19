@@ -1,0 +1,508 @@
+---
+title: "02. R Setup for Genomics"
+author: "Muhammad Aziz Muslim"
+date: "last-modified"
+categories: [setup, r-programming]
+---
+
+## Learning Objectives
+
+By the end of this tutorial, you will:
+
+- Have a complete R/RStudio setup for genomic analysis
+- Know essential R packages for breeding genomics
+- Understand R project organization
+- Be able to create reproducible analyses
+
+## Installing R and RStudio
+
+### Step 1: Install R
+
+Download from: https://cran.r-project.org/
+
+**Windows:**
+1. Download `.exe` installer
+2. Run and follow installation wizard
+3. Install to default location
+
+**macOS:**
+```bash
+# Using Homebrew (recommended)
+brew install r
+
+# Or download from CRAN
+# https://cran.r-project.org/bin/macosx/
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt-get update
+sudo apt-get install r-base r-base-dev
+```
+
+### :::{.callout-tip}
+**Pro Tip:** Always use the latest version of R (currently 4.3+) for best package compatibility.
+:::
+
+### Step 2: Install RStudio
+
+Download from: https://posit.co/download/rstudio-desktop/
+
+RStudio provides:
+- Better code editor
+- Integrated help
+- Project management
+- Git integration
+- Package management
+
+## Essential Package Installation
+
+Create a setup script for reproducibility:
+
+```r
+# =============================================================================
+# File: 00_setup.R
+# Description: Install and load all required packages for genomics
+# =============================================================================
+
+# Function to check and install packages
+install_if_missing <- function(packages) {
+  new_packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+  
+  if(length(new_packages)) {
+    message(paste("Installing:", paste(new_packages, collapse = ", ")))
+    install.packages(new_packages, dependencies = TRUE)
+  }
+}
+
+# Core tidyverse packages
+core_packages <- c(
+  "tidyverse",    # Data manipulation and visualization
+  "data.table",   # Fast data processing
+  "readxl",       # Excel file reading
+  "writexl",      # Excel file writing
+  "haven"         # SPSS/Stata/SAS files
+)
+
+install_if_missing(core_packages)
+
+# Genomics-specific packages
+genomics_packages <- c(
+  "rrBLUP",       # Ridge regression BLUP
+  "BGLR",         # Bayesian regression
+  "sommer",       # Mixed models
+  "qtl",          # QTL mapping
+  "qtl2",         # Next-gen QTL mapping
+  "gap",          # Genetic analysis
+  "genio",        # PLINK file I/O
+  "snpStats",     # SNP data handling
+  "qqman"         # Manhattan and QQ plots
+)
+
+# Install genomics packages
+install_if_missing(genomics_packages)
+
+# Bioconductor packages
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+bioc_packages <- c(
+  "VariantAnnotation",  # VCF file handling
+  "Biostrings",         # Biological sequences
+  "GenomicRanges",      # Genomic intervals
+  "SNPlocs.Hsapiens.dbSNP144.GRCh37"
+)
+
+# Install Bioconductor packages
+for (pkg in bioc_packages) {
+  if (!require(pkg, character.only = TRUE, quietly = TRUE)) {
+    BiocManager::install(pkg)
+  }
+}
+
+# Visualization packages
+viz_packages <- c(
+  "ggplot2",
+  "cowplot",        # Combine ggplot figures
+  "ggrepel",        # Better text labels
+  "ggridges",       # Ridge plots
+  "pheatmap",       # Heatmaps
+  "corrplot",       # Correlation plots
+  "gridExtra"       # Grid arrangement
+)
+
+install_if_missing(viz_packages)
+
+# Load all packages
+library(tidyverse)
+library(data.table)
+library(rrBLUP)
+library(qtl)
+library(qtl2)
+library(ggplot2)
+library(pheatmap)
+library(corrplot)
+
+message("✓ All packages loaded successfully!")
+```
+
+## Project Organization
+
+Create a standardized project structure:
+
+```r
+# =============================================================================
+# File: create_project_structure.R
+# Description: Set up organized folder structure for genomics projects
+# =============================================================================
+
+create_genomics_project <- function(project_name, path = ".") {
+  
+  # Create main directories
+  dirs <- c(
+    "data/raw",           # Original data (never modify)
+    "data/processed",     # Cleaned data
+    "data/external",      # Third-party data
+    "scripts",            # R scripts
+    "output/figures",     # Generated plots
+    "output/tables",      # Generated tables
+    "output/results",     # Analysis results
+    "docs",               # Documentation
+    "temp"                # Temporary files
+  )
+  
+  full_paths <- file.path(path, project_name, dirs)
+  
+  # Create directories
+  for (dir in full_paths) {
+    if (!dir.exists(dir)) {
+      dir.create(dir, recursive = TRUE)
+      message(paste("Created:", dir))
+    }
+  }
+  
+  # Create .gitignore
+  gitignore_content <- c(
+    "# R objects",
+    "*.RData",
+    "*.rds",
+    "",
+    "# RStudio",
+    ".Rhistory",
+    ".Rproj.user",
+    "",
+    "# Temporary files",
+    "temp/*",
+    "!temp/.gitkeep",
+    "",
+    "# System files",
+    ".DS_Store",
+    "Thumbs.db"
+  )
+  
+  writeLines(
+    gitignore_content, 
+    file.path(path, project_name, ".gitignore")
+  )
+  
+  # Create README
+  readme_content <- c(
+    paste("#", project_name),
+    "",
+    "## Description",
+    "",
+    "Brief description of the project.",
+    "",
+    "## Directory Structure",
+    "",
+    "- `data/raw/` - Original data (read-only)",
+    "- `data/processed/` - Cleaned data",
+    "- `scripts/` - Analysis scripts",
+    "- `output/` - Results and figures",
+    "",
+    "## Setup",
+    "",
+    "```r",
+    "source('scripts/00_setup.R')",
+    "```"
+  )
+  
+  writeLines(readme_content, file.path(path, project_name, "README.md"))
+  
+  message(paste("\n✓ Project", project_name, "created successfully!"))
+  message(paste("Location:", file.path(path, project_name)))
+}
+
+# Usage:
+# create_genomics_project("my_genomics_project")
+```
+
+## RStudio Configuration
+
+Optimize RStudio for genomics work:
+
+### Recommended Settings
+
+Go to **Tools → Global Options**:
+
+**Code Tab:**
+- ✓ Show line numbers
+- ✓ Highlight selected line
+- ✓ Auto-indent code
+- ✓ Soft-wrap R source files
+- Tab width: 2 spaces
+
+**Saving Tab:**
+- ✓ Save before sourcing
+- Default save format: UTF-8
+
+**Pane Layout Tab:**
+- Choose layout that shows:
+  - Source editor
+  - Console
+  - Environment/History
+  - Files/Plots/Packages/Help
+
+### Create RStudio Project Template
+
+```r
+# =============================================================================
+# File: scripts/00_setup.R
+# Description: Standard setup for all genomics projects
+# =============================================================================
+
+# Set working directory to project root
+# (Automatically set when using RStudio Projects)
+
+# Load packages
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(data.table)
+  library(rrBLUP)
+  library(qtl2)
+  library(ggplot2)
+  library(pheatmap)
+})
+
+# Set options
+options(
+  stringsAsFactors = FALSE,    # Don't convert strings to factors
+  scipen = 999,                # Disable scientific notation
+  digits = 4,                  # Display 4 decimal places
+  width = 120                  # Console width
+)
+
+# Set ggplot2 theme
+theme_set(theme_minimal(base_size = 12))
+
+# Custom colors for genomics plots
+genomics_colors <- c(
+  "primary" = "#2b6cb0",
+  "secondary" = "#742a2a",
+  "success" = "#48bb78",
+  "warning" = "#ed8936",
+  "error" = "#f56565",
+  "neutral" = "#718096"
+)
+
+# Helper functions
+message_green <- function(...) message(paste0("\033[32m", ..., "\033[0m"))
+message_blue <- function(...) message(paste0("\033[34m", ..., "\033[0m"))
+
+message_green("✓ Setup complete!")
+```
+
+## Working with Genomic Data
+
+### Example: Reading Different File Types
+
+```r
+# =============================================================================
+# File: scripts/01_data_io.R
+# Description: Input/Output functions for genomic data
+# =============================================================================
+
+# Read CSV/TSV files
+read_genotype_csv <- function(file_path) {
+  read_csv(file_path, show_col_types = FALSE)
+}
+
+# Read Excel files
+read_phenotype_excel <- function(file_path, sheet = 1) {
+  read_excel(file_path, sheet = sheet)
+}
+
+# Read PLINK files (using genio)
+read_plink_files <- function(bed_file, bim_file, fam_file) {
+  if (!require("genio")) install.packages("genio")
+  library(genio)
+  
+  plink_data <- read_plink(
+    bed = bed_file,
+    bim = bim_file,
+    fam = fam_file
+  )
+  
+  return(plink_data)
+}
+
+# Read VCF files (using VariantAnnotation)
+read_vcf_file <- function(vcf_path) {
+  if (!require("VariantAnnotation")) {
+    BiocManager::install("VariantAnnotation")
+  }
+  library(VariantAnnotation)
+  
+  vcf <- readVcf(vcf_path, "hg19")
+  return(vcf)
+}
+
+# Write results
+write_results_table <- function(data, file_path) {
+  write_csv(data, file_path)
+  message(paste("✓ Saved:", file_path))
+}
+
+# Save R object
+save_rds <- function(object, file_path) {
+  saveRDS(object, file_path)
+  message(paste("✓ Saved RDS:", file_path))
+}
+```
+
+## Creating Reproducible Reports
+
+### R Markdown Template
+
+```markdown
+---
+title: "Genomic Analysis Report"
+author: "Muhammad Aziz Muslim"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 8,
+  fig.height = 6
+)
+
+# Load setup
+source("scripts/00_setup.R")
+```
+
+## Introduction
+
+Brief description of the analysis.
+
+## Methods
+
+Describe your methods here.
+
+## Results
+
+```{r analysis}
+# Your analysis code
+```
+
+## Discussion
+
+Interpret your results.
+```
+
+## Best Practices
+
+### :::{.callout-important}
+**Golden Rules for Reproducible Genomics:**
+
+1. **Never modify raw data** - Always work on copies
+2. **Use scripts, not point-and-click** - Document every step
+3. **Comment your code** - Future you will thank you
+4. **Use version control** - Git + GitHub
+5. **Save intermediate results** - Don't re-run everything
+6. **Set seeds for randomness** - `set.seed(123)`
+:::
+
+### Code Organization Example
+
+```r
+# =============================================================================
+# File: scripts/02_gwas_analysis.R
+# Author: Muhammad Aziz Muslim
+# Date: 2024-01-15
+# Description: GWAS analysis for plant height
+# =============================================================================
+
+# SECTION 1: Load data --------------------------------------------------------
+message_blue("Loading data...")
+genotype <- readRDS("data/processed/genotype.rds")
+phenotype <- read_csv("data/processed/phenotype.csv")
+
+# SECTION 2: Quality control --------------------------------------------------
+message_blue("Performing QC...")
+# QC code here
+
+# SECTION 3: GWAS analysis ----------------------------------------------------
+message_blue("Running GWAS...")
+# GWAS code here
+
+# SECTION 4: Visualization ----------------------------------------------------
+message_blue("Creating plots...")
+# Plotting code here
+
+# SECTION 5: Save results -----------------------------------------------------
+message_blue("Saving results...")
+write_results_table(results, "output/tables/gwas_results.csv")
+```
+
+## Summary
+
+You now have:
+
+- ✅ R and RStudio installed
+- ✅ All essential genomics packages
+- ✅ Organized project structure
+- ✅ Reproducible workflow setup
+- ✅ Best practices for coding
+
+## Next Steps
+
+Continue with:
+
+1. [Introduction to Genomics](01-intro-to-genomics.qmd) - If you haven't
+2. [GWAS Analysis](03-gwas-analysis.qmd) - Your first analysis
+
+## Troubleshooting
+
+### Package installation fails?
+
+```r
+# Try installing from source
+install.packages("package_name", type = "source")
+
+# Or use BiocManager for Bioconductor
+BiocManager::install("package_name", ask = FALSE)
+```
+
+### Memory issues with large datasets?
+
+```r
+# Use data.table for efficiency
+library(data.table)
+large_data <- fread("large_file.csv")
+
+# Or process in chunks
+chunk_size <- 10000
+```
+
+---
+
+**Citation:** Muslim, M.A. (2024). R Setup for Genomics. *Genomics Tutorials*. https://your-username.github.io/tutorials

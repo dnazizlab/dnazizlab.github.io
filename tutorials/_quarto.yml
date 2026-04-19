@@ -1,0 +1,99 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Genomics Tutorials"
+  description: "R-based tutorials for plant and animal breeding genomics"
+  site-url: "https://your-username.github.io/tutorials"
+  repo-url: "https://github.com/your-username/your-username.github.io"
+  repo-actions: [edit, issue]
+  
+  # Navigation
+  navbar:
+    background: "#1a365d"
+    foreground: "#ffffff"
+    left:
+      - href: ../index.html
+        text: "← Back to Profile"
+      - href: ./index.qmd
+        text: "Home"
+      - href: ./tutorials/
+        text: "Tutorials"
+      - href: ./about.qmd
+        text: "About"
+    right:
+      - icon: github
+        href: https://github.com/your-username
+      - icon: linkedin
+        href: https://linkedin.com/in/yourprofile
+  
+  # Sidebar for tutorials
+  sidebar:
+    - id: tutorials-sidebar
+      title: "Tutorial Topics"
+      style: "docked"
+      background: light
+      contents:
+        - section: "Getting Started"
+          contents:
+            - href: tutorials/01-intro-to-genomics.qmd
+              text: "Introduction to Genomics"
+            - href: tutorials/02-r-setup.qmd
+              text: "R Setup for Genomics"
+        - section: "Plant Breeding"
+          contents:
+            - href: tutorials/03-gwas-analysis.qmd
+              text: "GWAS Analysis"
+            - href: tutorials/04-genomic-selection.qmd
+              text: "Genomic Selection"
+        - section: "Animal Breeding"
+          contents:
+            - href: tutorials/05-pedigree-analysis.qmd
+              text: "Pedigree Analysis"
+            - href: tutorials/06-breeding-values.qmd
+              text: "Breeding Value Estimation"
+        - section: "Bioinformatics"
+          contents:
+            - href: tutorials/07-sequence-analysis.qmd
+              text: "Sequence Analysis"
+            - href: tutorials/08-variant-calling.qmd
+              text: "Variant Calling"
+
+  page-footer:
+    left: |
+      © 2024 Muhammad Aziz Muslim BSc, MSc
+    center:
+      - href: ../index.html#contact
+        text: "Contact"
+    right:
+      - icon: github
+        href: https://github.com/your-username
+      - icon: linkedin  
+        href: https://linkedin.com/in/yourprofile
+
+format:
+  html:
+    theme:
+      - cosmo
+      - custom.scss
+    code-copy: true
+    code-overflow: scroll
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    highlight-style: github
+    code-link: true
+    fig-width: 8
+    fig-height: 6
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    
+execute:
+  echo: true
+  warning: true
+  message: true
+  cache: true
+  freeze: auto
+
+editor: source

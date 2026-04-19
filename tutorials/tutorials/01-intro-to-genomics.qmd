@@ -1,0 +1,246 @@
+---
+title: "01. Introduction to Genomics"
+author: "Muhammad Aziz Muslim"
+date: "last-modified"
+categories: [genomics, basics]
+---
+
+## Learning Objectives
+
+By the end of this tutorial, you will:
+
+- Understand what genomics is and its applications in breeding
+- Know the difference between genotype and phenotype
+- Learn about molecular markers used in breeding
+- Be familiar with common genomic data formats
+
+## What is Genomics?
+
+**Genomics** is the study of genomes - the complete set of DNA within a single cell of an organism. In breeding, genomics helps us:
+
+1. Identify genes associated with desirable traits
+2. Predict breeding values more accurately
+3. Accelerate breeding cycles
+4. Improve selection efficiency
+
+### :::{.callout-note}
+**Key Concept:** While genetics studies individual genes, genomics looks at all genes and their interactions simultaneously.
+:::
+
+## Genotype vs Phenotype
+
+Understanding the difference is crucial:
+
+| Term | Definition | Example |
+|------|------------|---------|
+| **Genotype** | Genetic makeup of an organism | DNA sequence at a specific locus |
+| **Phenotype** | Observable characteristics | Plant height, yield, disease resistance |
+
+The relationship can be expressed as:
+
+$$ \text{Phenotype} = \text{Genotype} + \text{Environment} + (\text{G} \times \text{E}) $$
+
+## Molecular Markers
+
+Molecular markers are DNA sequences with known locations on chromosomes. Common types include:
+
+### SNP (Single Nucleotide Polymorphism)
+
+The most common marker type in modern genomics:
+
+```r
+# Example SNP data structure
+snp_data <- data.frame(
+  marker_id = c("rs12345", "rs67890", "rs11111"),
+  chromosome = c(1, 1, 2),
+  position = c(10583, 10611, 17324),
+  ref_allele = c("A", "G", "T"),
+  alt_allele = c("G", "A", "C"),
+  stringsAsFactors = FALSE
+)
+
+print(snp_data)
+```
+
+### SSR (Simple Sequence Repeats)
+
+Also known as microsatellites:
+
+```r
+# Example SSR data
+ssr_data <- data.frame(
+  marker = c("RM1", "RM2", "RM3"),
+  motif = c("(GA)n", "(CT)n", "(AT)n"),
+  size_range = c("100-200 bp", "150-250 bp", "80-180 bp"),
+  stringsAsFactors = FALSE
+)
+
+print(ssr_data)
+```
+
+## Common Data Formats
+
+### VCF (Variant Call Format)
+
+Standard format for storing genetic variation:
+
+```
+##fileformat=VCFv4.2
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  Sample1 Sample2
+1       10583   rs12345 A       G       .       PASS    .       GT      0/0     0/1
+1       10611   rs67890 G       A       .       PASS    .       GT      0/1     1/1
+```
+
+### PED/MAP Format
+
+Common in PLINK for genome-wide data:
+
+```r
+# Reading PLINK format data (using snpStats package)
+# library(snpStats)
+# plink_data <- read.plink("data.bed", "data.bim", "data.fam")
+```
+
+## R Packages for Genomics
+
+Essential packages to install:
+
+```r
+# Install Bioconductor (if not already installed)
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# Core genomics packages
+install.packages(c("tidyverse", "data.table", "ggplot2"))
+
+# Bioconductor packages
+BiocManager::install(c(
+  "SNPlocs.Hsapiens.dbSNP144.GRCh37",  # Human SNP data
+  "BSgenome.Hsapiens.UCSC.hg19",        # Human genome
+  "VariantAnnotation",                   # VCF handling
+  "genio"                                # PLINK file I/O
+))
+
+# Breeding-specific packages
+install.packages(c(
+  "rrBLUP",      # Ridge regression BLUP
+  "BGLR",        # Bayesian regression
+  "sommer",      # Mixed models
+  "qtl",         # QTL mapping
+  "qtl2"         # Next-gen QTL mapping
+))
+```
+
+## Loading Genomic Data
+
+Example workflow with SNP data:
+
+```r
+# Load libraries
+library(tidyverse)
+library(data.table)
+library(rrBLUP)
+
+# Simulate example genotype data
+set.seed(123)
+n_markers <- 1000
+n_individuals <- 200
+
+# Create genotype matrix (0, 1, 2 for AA, Aa, aa)
+genotype_matrix <- matrix(
+  sample(0:2, n_markers * n_individuals, replace = TRUE),
+  nrow = n_individuals,
+  ncol = n_markers
+)
+
+# Add individual IDs and marker names
+rownames(genotype_matrix) <- paste0("Ind", 1:n_individuals)
+colnames(genotype_matrix) <- paste0("M", 1:n_markers)
+
+# Check data structure
+dim(genotype_matrix)
+head(genotype_matrix[, 1:5])
+
+# Check allele frequencies
+allele_freq <- colMeans(genotype_matrix) / 2
+hist(allele_freq, 
+     main = "Allele Frequency Distribution",
+     xlab = "Frequency",
+     col = "steelblue",
+     border = "white")
+```
+
+## Quality Control Basics
+
+Before analysis, always check data quality:
+
+```r
+# Function to check missing data
+check_missing <- function(genotype_data) {
+  missing_per_ind <- rowSums(is.na(genotype_data)) / ncol(genotype_data) * 100
+  missing_per_marker <- colSums(is.na(genotype_data)) / nrow(genotype_data) * 100
+  
+  list(
+    individuals = missing_per_ind,
+    markers = missing_per_marker
+  )
+}
+
+# Apply QC check
+qc_results <- check_missing(genotype_matrix)
+
+# Plot missing data
+par(mfrow = c(1, 2))
+hist(qc_results$individuals, 
+     main = "Missing Data per Individual",
+     xlab = "% Missing",
+     col = "lightblue")
+hist(qc_results$markers, 
+     main = "Missing Data per Marker",
+     xlab = "% Missing",
+     col = "lightgreen")
+```
+
+### :::{.callout-warning}
+**Important:** Always perform quality control before genomic analysis! Common filters:
+- Missing data < 10%
+- Minor allele frequency (MAF) > 0.05
+- Remove individuals with high missing data
+:::
+
+## Summary
+
+In this tutorial, we covered:
+
+- ✅ Definition and applications of genomics
+- ✅ Genotype vs phenotype distinction
+- ✅ Types of molecular markers (SNP, SSR)
+- ✅ Common data formats (VCF, PED/MAP)
+- ✅ Essential R packages
+- ✅ Basic data loading and QC
+
+## Next Steps
+
+Continue with:
+
+1. [R Setup for Genomics](02-r-setup.qmd) - Configure your R environment
+2. [GWAS Analysis](03-gwas-analysis.qmd) - Learn association mapping
+
+## Exercises
+
+1. Install all required R packages listed above
+2. Find a public genomic dataset (e.g., from NCBI)
+3. Load the data and check its structure
+4. Calculate missing data percentages
+
+## Resources
+
+- [NCBI Genomics](https://www.ncbi.nlm.nih.gov/genomics/)
+- [Ensembl Genome Browser](https://www.ensembl.org/)
+- [Bioconductor Genomics](https://bioconductor.org/)
+- [rrBLUP Package Documentation](https://cran.r-project.org/package=rrBLUP)
+
+---
+
+**Citation:** Muslim, M.A. (2024). Introduction to Genomics. *Genomics Tutorials*. https://your-username.github.io/tutorials

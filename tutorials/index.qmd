@@ -1,0 +1,66 @@
+---
+title: "Genomics Tutorials"
+subtitle: "R-based tutorials for plant and animal breeding"
+---
+
+## Welcome to the Genomics Tutorials
+
+This collection provides step-by-step tutorials for genomic analysis in plant and animal breeding using R. Each tutorial includes reproducible code, explanations, and real-world examples.
+
+### :::{.callout-tip}
+**New to R?** Start with the [R Setup for Genomics](tutorials/02-r-setup.qmd) tutorial to get your environment ready.
+:::
+
+## Tutorial Categories
+
+### 🌱 Plant Breeding
+- **GWAS Analysis** - Genome-wide association studies for trait mapping
+- **Genomic Selection** - Predicting breeding values using genomic data
+- **QTL Mapping** - Identifying quantitative trait loci
+- **Marker-Assisted Selection** - Using molecular markers in breeding programs
+
+### 🐄 Animal Breeding
+- **Pedigree Analysis** - Working with pedigree data
+- **Breeding Value Estimation** - EBV and GEBV calculations
+- **Genomic Prediction** - Single-step and multi-step approaches
+- **Population Genetics** - Genetic diversity and structure
+
+### 💻 Bioinformatics
+- **Sequence Analysis** - NGS data processing
+- **Variant Calling** - SNP and indel detection
+- **Phylogenetic Analysis** - Evolutionary relationships
+- **Data Visualization** - Creating publication-quality figures
+
+## Getting Started
+
+1. **Install R and RStudio** - Follow the [setup guide](tutorials/02-r-setup.qmd)
+2. **Install required packages** - Each tutorial lists its dependencies
+3. **Download example data** - Links provided in each tutorial
+4. **Run the code** - Execute chunks interactively or all at once
+
+## About These Tutorials
+
+All tutorials are written in **Quarto** (the next generation of R Markdown) and include:
+
+- ✅ Reproducible R code with explanations
+- ✅ Real genomic datasets
+- ✅ Publication-quality visualizations
+- ✅ Best practices and common pitfalls
+- ✅ Downloadable scripts and data
+
+### :::{.callout-note}
+**Have a suggestion?** These tutorials are open source! [View on GitHub](https://github.com/your-username/your-username.github.io) or [report an issue](https://github.com/your-username/your-username.github.io/issues).
+:::
+
+## Quick Links
+
+- [Introduction to Genomics](tutorials/01-intro-to-genomics.qmd) - Start here
+- [R Setup for Genomics](tutorials/02-r-setup.qmd) - Get your environment ready
+- [GWAS Analysis](tutorials/03-gwas-analysis.qmd) - Most popular tutorial
+- [Genomic Selection](tutorials/04-genomic-selection.qmd) - Advanced methods
+
+---
+
+**Author:** Muhammad Aziz Muslim BSc, MSc  
+**Last Updated:** `r Sys.Date()`  
+**License:** CC BY 4.0
